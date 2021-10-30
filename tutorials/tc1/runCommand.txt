@@ -1,0 +1,6 @@
+foamCleanTutorials
+foamCleanPolyMesh
+blockMesh > logMesh
+checkMesh > logCheckMesh
+subsurfaceFlowFOAM > logSolution
+

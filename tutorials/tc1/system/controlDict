@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     	subsurfaceFlowFOAM;
+
+startFrom       	startTime;
+
+startTime       	0;
+
+stopAt          	endTime;
+
+endTime         	86400;
+
+deltaT          	1;
+
+writeControl    	adjustableRunTime;
+
+writeInterval   	3600;
+
+purgeWrite      	0;
+
+writeFormat     	ascii;
+
+writePrecision  	6;
+
+writeCompression 	uncompressed;
+
+timeFormat      	general;
+
+timePrecision   	6;
+
+runTimeModifiable 	true;
+
+adjustTimeStep  	true;
+
+maxDeltaT       	3600;
+
+libs ("specifiedConstantFluxBC.so");
+
+// ************************************************************************* //

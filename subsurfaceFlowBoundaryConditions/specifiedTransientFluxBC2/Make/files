@@ -1,0 +1,3 @@
+specifiedTransientFluxBC2FvPatchScalarField.C
+
+LIB = $(FOAM_USER_LIBBIN)/specifiedTransientFluxBC2
