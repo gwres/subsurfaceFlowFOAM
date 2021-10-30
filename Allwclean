@@ -1,0 +1,22 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+set -x
+
+# cleaning solvers 
+
+cd subsurfaceFlowBoundaryConditions/
+wclean hydrostaticBC
+rm ${FOAM_USER_LIBBIN}/hydrostaticBC.so
+wclean movingWaterTableBC
+rm ${FOAM_USER_LIBBIN}/movingWaterTableBC.so
+wclean specifiedConstantFluxBC
+rm ${FOAM_USER_LIBBIN}/specifiedConstantFluxBC.so
+wclean specifiedTransientFluxBC1
+rm ${FOAM_USER_LIBBIN}/specifiedTransientFluxBC1.so
+wclean specifiedTransientFluxBC2
+rm ${FOAM_USER_LIBBIN}/specifiedTransientFluxBC2.so
+wclean wellUnconfinedBC
+rm ${FOAM_USER_LIBBIN}/wellUnconfinedBC.so
+cd ..
+wclean subsurfaceFlowFOAM
+rm ${FOAM_USER_APPBIN}/subsurfaceFlowFOAM

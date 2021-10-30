@@ -1,0 +1,16 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+set -x
+
+# Compiling solvers 
+
+cd subsurfaceFlowBoundaryConditions/
+wmake libso hydrostaticBC
+wmake libso movingWaterTableBC
+wmake libso specifiedConstantFluxBC
+wmake libso specifiedTransientFluxBC1
+wmake libso specifiedTransientFluxBC2
+wmake libso wellUnconfinedBC
+cd ..
+wmake subsurfaceFlowFOAM
+
