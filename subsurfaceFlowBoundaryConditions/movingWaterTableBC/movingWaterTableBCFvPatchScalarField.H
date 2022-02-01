@@ -26,12 +26,13 @@ Class
     Foam::movingWaterTableBCFvPatchScalarField
     
 Group
-	movingWaterTableBC/subsurfaceFlowBoundaryConditions
+	movingWaterTableBC/customBoundaryConditions
 
 Description
     This boundary condition calculates the pressure head to be specified
-    at the bottom boundary for a moving water table.
+    at the lower boundary for a moving water table.
 \*---------------------------------------------------------------------------*/
+
 #ifndef movingWaterTableBCFvPatchScalarField_H
 #define movingWaterTableBCFvPatchScalarField_H
 
@@ -46,8 +47,8 @@ class movingWaterTableBCFvPatchScalarField
 	{
     
 		//Private data
-		scalarField zWT_;												//Initial height of the water table
-		scalarField vWT_;												//Velocity of the moving water table
+		scalarField zWT_;	//Initial height of the water table
+		scalarField vWT_;	//Velocity of the moving water table
 
 		public:
 

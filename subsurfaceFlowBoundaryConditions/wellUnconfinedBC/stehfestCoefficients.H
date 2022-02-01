@@ -26,7 +26,7 @@ Class
     Foam::stehfestCoefficients
 
 Group
-    wellUnconfinedBC/subsurfaceFlowBoundaryConditions
+    wellUnconfinedBC/customBoundaryConditions
 
 Description
     This calculates the coefficients required in Stehfest Algorithm for 

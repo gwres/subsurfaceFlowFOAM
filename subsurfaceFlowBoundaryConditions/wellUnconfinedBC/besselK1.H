@@ -26,7 +26,7 @@ Class
     Foam::besselK1
 
 Group
-    wellUnconfinedBC/subsurfaceFlowBoundaryConditions
+    wellUnconfinedBC/customBoundaryConditions
 
 Description
     Modified Bessel Function of Second Kind and Order One

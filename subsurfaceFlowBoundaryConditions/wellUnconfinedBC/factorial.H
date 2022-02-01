@@ -26,7 +26,7 @@ Class
     Foam::factorial
 
 Group
-    wellUnconfinedBC/subsurfaceFlowBoundaryConditions
+    wellUnconfinedBC/customBoundaryConditions
 
 Description
     This calculates the factorial of an integer value

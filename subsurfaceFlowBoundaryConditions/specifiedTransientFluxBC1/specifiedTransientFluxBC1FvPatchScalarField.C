@@ -26,11 +26,11 @@ Class
     Foam::specifiedTransientFluxBC1FvPatchScalarField
 
 Group
-    specifiedTransientFluxBC1/subsurfaceFlowBoundaryConditions
+    specifiedTransientFluxBC1/customBoundaryConditions
 
 Description
-	This boundary condition calculates the surface normal gradient for 
-    pressure head due to time-varying flux specified at that boundary
+    This boundary condition calculates the surface normal gradient for 
+    pressure head due to transient specified flux value at that boundary
     as in Paniconi et al.(1991).
 \*-----------------------------------------------------------------------*/
 #include "specifiedTransientFluxBC1FvPatchScalarField.H"
@@ -50,7 +50,7 @@ namespace Foam
 	)
 	:
 		fixedGradientFvPatchScalarField(p, iF),
-		qC_(p.size(), 0.0)
+		qC_(0.0)
 		{}
 	/*-------------------------------------------------------------------------------------*/
 	specifiedTransientFluxBC1FvPatchScalarField::specifiedTransientFluxBC1FvPatchScalarField
@@ -119,12 +119,11 @@ namespace Foam
 		scalar t = this->db().time().value();
 		
 		const fvPatchField<tensor>& K_C = patch().lookupPatchField<volTensorField, tensor>("K");
-		const scalarField K_nf = (K_C & cmptMag(patch().nf())) & cmptMag(patch().nf());
-        
+		
         const fvPatchField<vector>& grad_z_C = patch().lookupPatchField<volVectorField, vector>("grad_z");
         
-        gradient() = qC_*(t/8.2944e8)/-K_nf - (grad_z_C & patch().nf());
-        
+        gradient() = -(((qC_*(t/8.2944e8)) & inv(K_C)) & patch().nf()) - (grad_z_C & patch().nf());
+                
         fixedGradientFvPatchScalarField::updateCoeffs();
 	}
 	

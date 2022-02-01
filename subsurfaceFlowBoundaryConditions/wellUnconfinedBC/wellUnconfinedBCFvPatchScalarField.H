@@ -26,12 +26,11 @@ Class
     Foam::wellUnconfinedBCFvPatchScalarField
 
 Group
-    wellUnconfinedBC/subsurfaceFlowBoundaryConditions
+    wellUnconfinedBC/customBoundaryConditions
 
 Description
-    This boundary condition calculates the drawdown at the well-boundary
-    and at the pumping well for unsteady groundwater flow through 
-    an unconfined aquifer.
+    This boundary condition calculates the drawdown at the well and surrounding 
+    locations for unsteady groundwater flow through a unconfined aquifer.
 \*-----------------------------------------------------------------------*/
 #ifndef wellUnconfinedBCFvPatchScalarField_H
 #define wellUnconfinedBCFvPatchScalarField_H

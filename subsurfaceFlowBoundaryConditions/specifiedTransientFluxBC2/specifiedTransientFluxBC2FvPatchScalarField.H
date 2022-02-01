@@ -26,11 +26,11 @@ Class
     Foam::specifiedTransientFluxBC2FvPatchScalarField
 
 Group
-    specifiedTransientFluxBC2/subsurfaceFlowBoundaryConditions
+    specifiedTransientFluxBC2/customBoundaryConditions
 
 Description
     This boundary condition calculates the surface normal gradient for 
-    pressure head due to time-varying flux specified at that boundary.
+    pressure head due to time varying specified flux value at that boundary.
     The flux is a Function1 type entry ie. it can be read either as a 
     table entry or polynomial function or from a CSV file.
 \*-----------------------------------------------------------------------*/
@@ -48,7 +48,7 @@ class specifiedTransientFluxBC2FvPatchScalarField
 	public fixedGradientFvPatchScalarField
 	{
 		//Private Data
-		autoPtr<Function1<scalar>> qC_; //Time Constant Flux
+		autoPtr<Function1<vector>> qC_; //Time Constant Flux
 		
 		public:
 

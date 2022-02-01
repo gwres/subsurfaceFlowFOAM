@@ -26,13 +26,13 @@ Class
     Foam::specifiedTransientFluxBC2FvPatchScalarField
 
 Group
-    specifiedTransientFluxBC2/subsurfaceFlowBoundaryConditions
+    specifiedTransientFluxBC2/customBoundaryConditions
 
 Description
     This boundary condition calculates the surface normal gradient for 
-    pressure head due to time-varying flux specified at that boundary.
+    pressure head due to time varying specified flux value at that boundary.
     The flux is a Function1 type entry ie. it can be read either as a 
-    table entry or polynomial function or from a CSV file.
+    table entry or polynomial function or from a CSV file. 
 \*-----------------------------------------------------------------------*/
 #include "specifiedTransientFluxBC2FvPatchScalarField.H"
 #include "addToRunTimeSelectionTable.H"
@@ -66,7 +66,7 @@ namespace Foam
 		{
 			if (dict.found("qC"))
 			{
-                qC_ = Function1<scalar>::New("qC", dict);
+                qC_ = Function1<vector>::New("qC", dict);
 			}
 			else
 			{
@@ -130,12 +130,11 @@ namespace Foam
 		const scalar t = db().time().timeOutputValue();
 		
 		const fvPatchField<tensor>& K_C = patch().lookupPatchField<volTensorField, tensor>("K");
-		const scalarField K_nf = (K_C & cmptMag(patch().nf())) & cmptMag(patch().nf());
-        
+		
         const fvPatchField<vector>& grad_z_C = patch().lookupPatchField<volVectorField, vector>("grad_z");
         
-        gradient() = qC_->value(t)/-K_nf - (grad_z_C & patch().nf());
-        
+        gradient() = -((qC_->value(t) & inv(K_C)) & patch().nf()) - (grad_z_C & patch().nf());
+                
         fixedGradientFvPatchScalarField::updateCoeffs();
 	}
 	
