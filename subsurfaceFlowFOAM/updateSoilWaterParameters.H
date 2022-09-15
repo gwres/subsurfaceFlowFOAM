@@ -29,19 +29,22 @@ Group
     subsurfaceFlowFOAM
 
 Description
-    Updates the soil-water characteristic parameters - moisture content,
-    unsaturated hydraulic conductivity and specific moisture capacity based 
-    on van Genuchten-Mualem model.
+    Updates the soil-water characteristic parameters like moisture content,
+    unsaturated hydraulic conductivity and specific moisture capacity based on
+    van Genuchten-Mualem model.
 \*-----------------------------------------------------------------------*/
+
 //Degree of Saturation
 Se = 0.5*((1.0 + sign(h)) + (1.0 - sign(h))*(Foam::pow((1.0 + Foam::pow(mag(alphaW*h), betaW)), -gammaW))); 
 
 //--------------------------------------------------------------------------------------------------------------------------//
+		
 //Moisture Content
 theta = thetaR + (thetaS - thetaR)*Se;
 theta.correctBoundaryConditions();
 
 //--------------------------------------------------------------------------------------------------------------------------//
+
 //Specific Moisture Capacity
 if (RicForm.match("h-based"))
 {
@@ -56,19 +59,22 @@ if (RicForm.match("h-based"))
 		Cw = 0.5*((1.0 - sign(h))*((theta - thetaN)/((hU*pos0(h - hN)*pos0(hN - h)) + (h - hN))));
 	}
 }
-else if (RicForm.match("mixed"))										//Analytical Derivative form
+else if (RicForm.match("mixed"))
 {
+	//Analytical Derivative form
 	Cw = (mag(alphaW)*gammaW*(thetaS - thetaR)/(1.0 - gammaW))*(Foam::pow(Se, (1.0/gammaW)))
 		  *(Foam::pow((1.0 - Foam::pow(Se, (1.0/gammaW))), gammaW));	
 }
 Cw.correctBoundaryConditions();
 
 //--------------------------------------------------------------------------------------------------------------------------//
+
 //Unsaturated Hydraulic Conductivity
 K = Ks*(Foam::pow(Se, 0.5)*Foam::pow((1.0 - Foam::pow((1.0 - Foam::pow(Se, (1.0/gammaW))), gammaW)), 2.0));
 K.correctBoundaryConditions(); 
 
 //---------------------------------------------------------------------------------------------------------------------------//
+
 F = Ss*theta/eta + Cw;													//Updating F
 										
 gTerm = K & grad_z;														//Updating the Gravity term

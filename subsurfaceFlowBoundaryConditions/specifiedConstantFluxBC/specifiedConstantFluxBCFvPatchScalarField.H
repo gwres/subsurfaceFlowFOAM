@@ -26,11 +26,11 @@ Class
     Foam::specifiedConstantFluxBCFvPatchScalarField
 
 Group
-    specifiedConstantFluxBC/customBoundaryConditions
+    specifiedConstantFluxBC/subsurfaceFlowBoundaryConditions
 
 Description
-    This boundary condition calculates the surface normal gradient for 
-    pressure head due to time constant specified flux value at that boundary.
+    This boundary condition calculates the normal gradient of pressure head 
+    due to time constant specified flux value at that boundary.
 \*-----------------------------------------------------------------------*/
 #ifndef specifiedConstantFluxBCFvPatchScalarField_H
 #define specifiedConstantFluxBCFvPatchScalarField_H

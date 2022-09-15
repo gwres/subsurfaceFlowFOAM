@@ -31,6 +31,7 @@ Group
 Description
     Reads the input parameters for "RICHARDS EQUATION"
 \*-----------------------------------------------------------------------*/
+
 word RicForm(richardDict.lookup("RicForm"));
 word CwForm(richardDict.lookup("CwForm"));
 word convergenceCriterion(richardDict.lookup("convergenceCriterion"));

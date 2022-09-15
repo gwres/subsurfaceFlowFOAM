@@ -26,7 +26,7 @@ Class
     Foam::wellUnconfinedBCFvPatchScalarField
 
 Group
-    wellUnconfinedBC/customBoundaryConditions
+    wellUnconfinedBC/subsurfaceFlowBoundaryConditions
 
 Description
     This boundary condition calculates the drawdown at the well and surrounding 

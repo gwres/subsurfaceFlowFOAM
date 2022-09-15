@@ -26,7 +26,7 @@ Class
     Foam::solveTan
 
 Group
-    wellUnconfinedBC/customBoundaryConditions
+    wellUnconfinedBC/subsurfaceFlowBoundaryConditions
 
 Description
     Solves for x: x*tan(x) = a

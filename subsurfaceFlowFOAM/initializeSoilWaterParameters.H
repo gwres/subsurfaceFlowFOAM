@@ -29,28 +29,32 @@ Group
     subsurfaceFlowFOAM
 
 Description
-    Initializes the soil-water characteristic parameters - moisture content,
-    unsaturated hydraulic conductivity and specific moisture capacity based 
-    on van Genuchten-Mualem model.
+    Initializes the soil-water characteristic parameters like moisture content,
+    unsaturated hydraulic conductivity and specific moisture capacity based on
+    van Genuchten-Mualem model.
 \*-----------------------------------------------------------------------*/
+
 //Soil-specific Exponent
 volScalarField gammaW = 1.0 - (1.0/betaW);
-    
+   
 //--------------------------------------------------------------------------------------------------------------------------//
+
 //Degree of Saturation
 volScalarField Se = 0.5*((1.0 + sign(h)) + (1.0 - sign(h))*(Foam::pow((1.0 + Foam::pow(mag(alphaW*h), betaW)), -gammaW))); 
 
 //--------------------------------------------------------------------------------------------------------------------------//
+		
 //Moisture Content
 theta = thetaR + (thetaS - thetaR)*Se;
 theta.correctBoundaryConditions();
 
 volScalarField theta0 = theta;    										//Initial moisture content
-volScalarField thetaM = theta; 											//Previous Picard Iteration level moisture content
-volScalarField thetaN = theta; 											//Previous time level moisture content
-volScalarField thetaNm1 = theta; 										//Previous to previous time level moisture content
+volScalarField thetaM = theta; 											//Previous Picard Iteration level Moisture Content
+volScalarField thetaN = theta; 											//Previous Time level Moisture Content
+volScalarField thetaNm1 = theta; 										//Previous Time level Moisture Content
 
 //--------------------------------------------------------------------------------------------------------------------------//
+
 //Check whether any Ss-field value is zero 
 forAll(mesh.C(), i)
 {
@@ -61,7 +65,6 @@ forAll(mesh.C(), i)
 	break;
 }
 
-//--------------------------------------------------------------------------------------------------------------------------//
 //Specific Moisture Capacity
 if (RicForm.match("h-based"))
 {
@@ -83,19 +86,22 @@ if (RicForm.match("h-based"))
 		}
 	}
 }
-else if (RicForm.match("mixed"))										//Analytical Derivative form
+else if (RicForm.match("mixed"))
 {
+	//Analytical Derivative form
 	Cw = (mag(alphaW)*gammaW*(thetaS - thetaR)/(1.0 - gammaW))*(Foam::pow(Se, (1.0/gammaW)))
 		  *(Foam::pow((1.0 - Foam::pow(Se, (1.0/gammaW))), gammaW));
 }
 Cw.correctBoundaryConditions();
 
 //--------------------------------------------------------------------------------------------------------------------------//
+
 //Unsaturated Hydraulic Conductivity
 K = Ks*(Foam::pow(Se, 0.5)*Foam::pow((1.0 - Foam::pow((1.0 - Foam::pow(Se, (1.0/gammaW))), gammaW)), 2.0));
 K.correctBoundaryConditions();
 
 //---------------------------------------------------------------------------------------------------------------------------//
+
 volScalarField F = Ss*theta/eta + Cw;									//Initializing F
 
 volVectorField gTerm = K & grad_z;										//Initializing the Gravity term

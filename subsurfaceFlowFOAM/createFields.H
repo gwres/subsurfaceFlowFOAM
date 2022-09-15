@@ -29,7 +29,8 @@ Group
     subsurfaceFlowFOAM
 
 Description
-    Modeling of Subsurface Flow [Richards Equation]
+    Modeling of Subsurface Flow 
+    [Richards Equation with Picard Iteration Method]
 /*------------------------------------------------------------------------------*/
 Info<< "Reading PRESSURE HEAD field h\n" << endl;
 

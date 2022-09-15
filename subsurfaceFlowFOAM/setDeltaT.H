@@ -29,8 +29,7 @@ Group
     subsurfaceFlowFOAM
 
 Description
-    Adjusts the time-step in accordance to the adaptive time-stepping 
-    algorithm.
+    Adjusts the time-step according the number of Picard Iterations.
 \*-----------------------------------------------------------------------*/
 if (adjustTimeStep)
 {	

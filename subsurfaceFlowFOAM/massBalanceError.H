@@ -31,12 +31,14 @@ Group
 Description
     Calculates the cumulative Mass balance Error after each time-step.
 \*-----------------------------------------------------------------------*/
+
 scalar MB1 = 0.0;
 scalar MB2_temp = 0.0;
 scalar MBE = 0.0;
 		
-if (nMBE != 1)
+if (nMARK != 1)
 {
+
 	//Calculation of Total additional mass in the domain (MB1)
 	MB1 = gSum((((theta - theta0) + (Ss*theta/eta)*(h - h0))*mesh.V())());
 		
@@ -48,8 +50,10 @@ if (nMBE != 1)
 			MB2_temp = MB2_temp + (-phi.boundaryField()[i][j]);
 		}
 	}
-		
+	
 	reduce(MB2_temp, sumOp<scalar>());
+	
+	MB2_temp = MB2_temp + gSum((qS*mesh.V())());
 			
 	MB2 = MB2 + MB2_temp*runTime.deltaT().value();
 			

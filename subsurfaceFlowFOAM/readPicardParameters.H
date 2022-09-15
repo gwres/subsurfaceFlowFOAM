@@ -31,8 +31,10 @@ Group
 Description
     Reads the input parameters required for Picard Iteration Method.
 \*-----------------------------------------------------------------------*/
+
 const label NPl = picardDict.lookupOrDefault<label>("Picard_lower_limit", 1);
 const label NPu = picardDict.lookupOrDefault<label>("Picard_upper_limit", 1);
+const label NPmin = picardDict.lookupOrDefault<label>("Min_Picard_iterations", 1);
 const label NPmax = picardDict.lookupOrDefault<label>("Max_Picard_iterations", 1);
 const label Nstab_max = picardDict.lookupOrDefault<label>("Max_Stabilization_Counters", 1);
 const scalar delta_f = picardDict.lookupOrDefault<scalar>("Time_factor", 1.0);

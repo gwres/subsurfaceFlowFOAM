@@ -26,7 +26,7 @@ Class
     Foam::hydrostaticBCFvPatchScalarField
     
 Group
-	hydrostaticBC/customBoundaryConditions
+	hydrostaticBC/subsurfaceFlowBoundaryConditions
 
 Description
     This boundary condition calculates the pressure head to be specified 

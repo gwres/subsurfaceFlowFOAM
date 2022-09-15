@@ -31,6 +31,7 @@ Group
 Description
     Solves the mixed form Richards Equation.
 \*-----------------------------------------------------------------------*/
+
 h.oldTime() = hM;
 				
 fvScalarMatrix h_Eqn

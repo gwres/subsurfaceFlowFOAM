@@ -26,7 +26,7 @@ Class
     Foam::besselI0
 
 Group
-    wellUnconfinedBC/customBoundaryConditions
+    wellUnconfinedBC/subsurfaceFlowBoundaryConditions
 
 Description
     Modified Bessel Function of First Kind and Order Zero 

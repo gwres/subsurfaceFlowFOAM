@@ -31,6 +31,7 @@ Group
 Description
     Solves the pressure head-based (h-based) Richards Equation.
 \*-----------------------------------------------------------------------*/
+
 h.oldTime() = hN;
 				
 fvScalarMatrix h_Eqn

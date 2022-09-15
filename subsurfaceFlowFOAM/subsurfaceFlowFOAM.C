@@ -31,6 +31,7 @@ Group
 Description
     Modeling of Subsurface Flow [Richards Equation]
 \*-----------------------------------------------------------------------*/
+
 #include "fvCFD.H"
 #include "IFstream.H"
 #include "OFstream.H"
@@ -52,16 +53,18 @@ int main(int argc, char *argv[])
     #include "readTimeControls.H"
     
     //------------------------------------------------------------------------------------------------------------------------------//
+    
     #include "readRichardParameters.H" 									//Reading the input parameters for "Richards Equation"
     
     #include "readPicardParameters.H" 									//Reading the input parameters for Picard Iteration Method
     
     //------------------------------------------------------------------------------------------------------------------------------//
+        
     label N_ele = mesh.cells().size(); 									//Number of Elements
     
     label nSs = 0;            	       									//Indicator for zero Ss-field
     
-    label nMBE = 0;           	       									//Indicator for Convergence Failure (for MBE calculation)
+    label nMARK = 0;           	       									//Indicator for Convergence Failure
     
     scalar errorSum = 0.0;       	   									//Initialization of Picard iteration error
     scalar error = 0.0;
@@ -81,9 +84,11 @@ int main(int argc, char *argv[])
     volScalarField hNm1 = h;  	 	   									//Previous to previous time level pressure head
     
 	//------------------------------------------------------------------------------------------------------------------------------//
+		
 	#include "initializeSoilWaterParameters.H"							//Initializing Soil-water Characteristic Parameters
- 
+	
 	//------------------------------------------------------------------------------------------------------------------------------//
+	
 	//Selection of the Convergence Criterion
 	scalar Pic_tol = 0.0;
 	
@@ -101,6 +106,7 @@ int main(int argc, char *argv[])
 	}
 	
 	//------------------------------------------------------------------------------------------------------------------------------//
+	
 	//Opening files for writing the MBE and Number of Picard Iterations for every time-step in a CSV file
 	std::ofstream file1;
 	file1.open("massBalanceError.csv");
@@ -109,6 +115,7 @@ int main(int argc, char *argv[])
 	file2.open("PicardIterations.csv");
 	
 	//------------------------------------------------------------------------------------------------------------------------------//
+	
 	//Time-Loop
     while (runTime.loop())
     {
@@ -119,7 +126,8 @@ int main(int argc, char *argv[])
         Info << "\nTime = " << runTime.timeName() << endl;	
         
         //--------------------------------------------------------------------------------------------------------------------------//
-        //Picard Iteration Loop
+        
+		//Picard Iteration Loop
 		for(label count = 1; count < NPmax + 1; count++)
 		{
 			if (RicForm.match("h-based"))
@@ -132,16 +140,19 @@ int main(int argc, char *argv[])
 			}
 			
 			//----------------------------------------------------------------------------------------------------------------------//	
+			
 			#include "updateSoilWaterParameters.H" 						//Updating Soil-water Characteristic Parameters
 			
 			//----------------------------------------------------------------------------------------------------------------------//
+								
 			#include "convergenceCriteria.H" 							//Calculating the Convergence Criterion
 				
 			//----------------------------------------------------------------------------------------------------------------------//
+			
 			//Termination criterion for Picard Iteration Loop
 			reduce(count, maxOp<label>());
 			
-			if ((error < Pic_tol) && (count >= 2))
+			if ((error < Pic_tol) && (count >= NPmin))
 			{
 				NP = count;
 				Info << "\nError = " << error << endl;
@@ -167,7 +178,7 @@ int main(int argc, char *argv[])
 				
 				#include "updateSoilWaterParameters.H" 					//Updating Soil-water Characteristic Parameters
 				
-				nMBE = 1;	
+				nMARK = 1;	
 			}
 			else
 			{
@@ -175,26 +186,29 @@ int main(int argc, char *argv[])
 			}
 	
 			//----------------------------------------------------------------------------------------------------------------------//
+			
 			hM = h;
 			thetaM = theta;
 			
 		} 																//End of Picard Iteration Loop
 		
 		//--------------------------------------------------------------------------------------------------------------------------//
+		
 		U = -K & (fvc::grad(h) + grad_z);								//Updating the cell-centred and face-centred flux
 		phi = fvc::interpolate(U) & mesh.Sf();
 		
 		//--------------------------------------------------------------------------------------------------------------------------//
+		
 		#include "massBalanceError.H" 									//Calculation of Mass Balance Error (MBE)
 		
-		if (nMBE != 1)
+		if (nMARK != 1)
 		{			
-			file1 << runTime.timeName() << "," << MB1 << "," << MB2 << "," << MBE << nl;	
+			file1 << runTime.timeName() << "," << MB1 << "," << MB2 << "," << MBE << nl;	//Writing the MBE
+			file2 << runTime.timeName() << "," << NP << nl;					//Writing the Number of Picard Iterations	
 		}
 		
 		//--------------------------------------------------------------------------------------------------------------------------//
-		file2 << runTime.timeName() << "," << NP << nl;					//Writing the Number of Picard Iterations
-		
+																		
 		runTime.write();
 		
 		oldTime = runTime.value();
@@ -204,17 +218,19 @@ int main(int argc, char *argv[])
 		hN = h;
 		thetaNm1 = thetaN;
 		thetaN = theta;
-		nMBE = 0;
+		nMARK = 0;
 		
 		#include "setDeltaT.H"											//Adjust time-step
 		
 	} 																	//End of Time-Loop
 	
 	//------------------------------------------------------------------------------------------------------------------------------//
+	
 	file1.close();
 	file2.close();
 
 	//------------------------------------------------------------------------------------------------------------------------------//
+	
 	std::clock_t endT= std::clock(); 									//End Time
 	
 	//Writing the Simulation Time

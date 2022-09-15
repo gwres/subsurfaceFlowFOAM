@@ -31,6 +31,7 @@ Group
 Description
     Calculates the Convergence Criterion for Picard Iteration Method.
 \*-----------------------------------------------------------------------*/
+
 if (convergenceCriterion.match("h-based"))
 {
 	errorSum = gSumMag(Foam::pow((h - hM), 2.0)())/N_ele;

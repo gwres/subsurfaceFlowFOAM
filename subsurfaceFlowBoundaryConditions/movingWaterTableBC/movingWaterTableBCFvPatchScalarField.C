@@ -26,7 +26,7 @@ Class
     Foam::movingWaterTableBCFvPatchScalarField
     
 Group
-	movingWaterTableBC/customBoundaryConditions
+	movingWaterTableBC/subsurfaceFlowBoundaryConditions
 
 Description
     This boundary condition calculates the pressure head to be specified
